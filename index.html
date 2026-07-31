@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Girlfriend's Day 💖</title>
+    <style>
+        /* Base Graph Paper Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fcf6f5; 
+            background-image: 
+                linear-gradient(rgba(180, 160, 150, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180, 160, 150, 0.3) 1px, transparent 1px);
+            background-size: 30px 30px; 
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Fixed Background Scrapbook Assets Layer */
+        .scrapbook-bg {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0; 
+            pointer-events: none;
+        }
+
+        .bg-asset {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* Top Left & Bottom Right Torn Paper */
+        .top-left-paper { top: -10px; left: -10px; width: 25vw; min-width: 200px; }
+        .bottom-right-paper { bottom: -10px; right: -10px; width: 25vw; min-width: 200px; transform: rotate(180deg); }
+
+        /* Scrapbook Decor Elements */
+        .asset-heart-1 { top: 18%; left: 15%; width: 450px; }
+        .asset-heart-2 { bottom: 22%; right: 18%; width: 450px; }
+        .asset-star-1 { top: 0%; right: 0%; width: 450px; }
+        .asset-flower-1 { bottom: 0%; left: 0%; width: 450px; }
+
+        /* Page Management System */
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+        .active { display: flex; }
+
+        /* Typography */
+        h1 {
+            color: #8b0000;
+            font-size: 4rem;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #8b0000;
+            font-size: 2.2rem;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Buttons Style */
+        .btn {
+            background: white;
+            border: 2px solid #8b0000;
+            color: #8b0000;
+            padding: 10px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #8b0000;
+            margin: 10px;
+            transition: 0.1s;
+        }
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #8b0000;
+        }
+
+        .btn-continue { border-style: dashed; border-radius: 30px; padding: 12px 35px; margin-top: 40px; }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+
+        /* Party Poppers */
+        .poppers {
+            position: absolute;
+            width: 80%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            top: 25%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .popper-item {
+            font-size: 45px;
+            animation: popBounce 1.5s infinite alternate ease-in-out;
+        }
+        .popper-left { transform: scaleX(-1) rotate(-25deg); }
+        .popper-right { transform: rotate(25deg); }
+
+        @keyframes popBounce {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.1) translateY(-10px); }
+        }
+
+        .cartoon-box img { width: 170px; margin: 10px 0; }
+
+        /* Page 3: Choose Your Gifts */
+        .gift-images-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .clickable-asset {
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        .clickable-asset:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.25));
+        }
+        .asset-envelope { width: 220px; }
+        .asset-bouquet { width: 250px; }
+        .asset-giftbox { width: 210px; }
+
+        /* --- LETTER PAGE STYLES --- */
+        .letter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+        .love-letter-img {
+            width: 380px; /* Letter ki perfect readable width */
+            height: auto;
+            display: block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            border-radius: 4px;
+        }
+        .polaroid {
+            background: white;
+            padding: 8px 8px 25px 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 110px;
+            position: absolute;
+        }
+        .polaroid img { width: 100%; display: block; }
+        
+        /* Bikhri hui polaroids ki positions */
+        .p1 { top: -20px; left: -20px; transform: rotate(-8deg); }
+        .p2 { bottom: -20px; left: -10px; transform: rotate(6deg); }
+        .p3 { top: -20px; right: -20px; transform: rotate(10deg); }
+        .p4 { bottom: -20px; right: -10px; transform: rotate(-5deg); }
+
+        /* --- BOUQUET PAGE STYLES --- */
+        .bouquet-options {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .bouquet-item {
+            width: 140px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .bouquet-item:hover { transform: scale(1.08); }
+        .bouquet-item img { width: 100%; }
+
+        .pickup-lines-box {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #8b0000;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: #8b0000;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- GIFT BOX & MUSIC PAGE STYLES --- */
+        .gift-box-layout {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .music-card {
+            background: #5a0000;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 260px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .vinyl-disc {
+            background: #111;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            border: 3px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vinyl-center {
+            background: #8b0000;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+        .interactive-card {
+            background: #8b0000;
+            width: 240px;
+            height: 180px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .interactive-card:hover { transform: scale(1.03); }
+        .heart-open-btn {
+            background: white;
+            color: #8b0000;
+            border: 2px dashed #8b0000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-family: 'Arial';
+            font-size: 16px;
+        }
+
+        /* Opened Card State */
+        .opened-card-content {
+            background: white;
+            border: 6px solid #5a0000;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Video Scroll Page */
+        .video-container {
+            margin-top: 30px;
+            padding-bottom: 40px;
+        }
+        video {
+            width: 100%;
+            max-width: 320px;
+            border: 5px solid white;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.6rem; }
+            .asset-heart-1, .asset-heart-2, .asset-star-1, .asset-flower-1 { width: 250px; }
+            .gift-images-container, .bouquet-options, .gift-box-layout { flex-direction: column; gap: 20px; }
+            .letter-container { flex-direction: column; }
+            .love-letter-img { width: 300px; }
+            .polaroid { position: relative; top: 0; left: 0; transform: rotate(0deg) !important; margin: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FIXED SCRAPBOOK ASSETS LAYER -->
+    <div class="scrapbook-bg">
+        <img src="torn-paper.png" class="bg-asset top-left-paper" alt="Torn Paper">
+        <img src="torn-paper.png" class="bg-asset bottom-right-paper" alt="Torn Paper">
+        <img src="scrapbook-heart.png" class="bg-asset asset-heart-1" alt="Heart">
+        <img src="scrapbook-heart.png" class="bg-asset asset-heart-2" alt="Heart">
+        <img src="scrapbook-star.png" class="bg-asset asset-star-1" alt="Star">
+        <img src="scrapbook-flower.png" class="bg-asset asset-flower-1" alt="Flower">
+    </div>
+
+    <!-- ================= PAGE 1 ================= -->
+    <div id="page-1" class="page active">
+        <h1>Happy</h1>
+        <h1>Girlfriend</h1>
+        <h1>Day!</h1>
+        <button class="btn btn-continue" onclick="nav('page-2')">💌 Continue</button>
+    </div>
+
+    <!-- ================= PAGE 2 (The Ask) ================= -->
+    <div id="page-2" class="page">
+        <div class="poppers">
+            <div class="popper-item popper-left">🎉✨</div>
+            <div class="popper-item popper-right">🎉✨</div>
+        </div>
+        <h2>PLEASE ACCEPT THE GIFT</h2>
+        <div class="cartoon-box"><img src="pleading-character.png" alt="Pleading"></div>
+        <div style="display: flex; gap: 15px; margin-top: 15px;">
+            <button class="btn" style="background: #8b0000; color: white;" onclick="nav('page-3')">YES</button>
+            <button class="btn" onclick="nav('page-2-no')">NO</button>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 2 NO ================= -->
+    <div id="page-2-no" class="page">
+        <button class="btn back-btn" onclick="nav('page-2')">⬅ Back</button>
+        <h2>WHY DID YOU CLICK NO!</h2>
+        <div class="cartoon-box"><img src="crying-character.png" alt="Crying"></div>
+    </div>
+
+    <!-- ================= PAGE 3 (Choose Your Gift) ================= -->
+    <div id="page-3" class="page">
+        <button class="btn back-btn" onclick="nav('page-2')">⬅ Back</button>
+        <h2>Choose Your Gifts!</h2>
+        <div class="gift-images-container">
+            <img src="envelope-asset.png" class="clickable-asset asset-envelope" alt="Envelope" onclick="nav('page-letter')">
+            <img src="bouquet-asset.png" class="clickable-asset asset-bouquet" alt="Bouquet" onclick="nav('page-bouquet')">
+            <img src="giftbox-asset.png" class="clickable-asset asset-giftbox" alt="Gift Box" onclick="nav('page-giftbox')">
+        </div>
+    </div>
+
+    <!-- ================= PAGE 4A: LOVE LETTER IMAGE & POLAROIDS ================= -->
+    <div id="page-letter" class="page">
+        <button class="btn back-btn" onclick="nav('page-3')">⬅ Back</button>
+        
+        <div class="letter-container">
+            <!-- Bikhri hui polaroids -->
+            <div class="polaroid p1"><img src="ananya-pic-1.jpg" alt="Pic 1"></div>
+            <div class="polaroid p2"><img src="ananya-pic-2.jpg" alt="Pic 2"></div>
+            
+            <!-- Clean High-Res Letter Image Tag -->
+            <img src="love-letter-bg.png" class="love-letter-img" alt="Love Letter">
+
+            <div class="polaroid p3"><img src="ananya-pic-3.jpg" alt="Pic 3"></div>
+            <div class="polaroid p4"><img src="ananya-pic-4.jpg" alt="Pic 4"></div>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 4B: BOUQUET BUILDER & PICKUP LINES ================= -->
+    <div id="page-bouquet" class="page">
+        <button class="btn back-btn" onclick="nav('page-3')">⬅ Back</button>
+        <h2>Build Your Bouquet 🌸</h2>
+        <p style="font-weight: bold; margin-bottom: 10px;">Select your favourite flowers:</p>
+        
+        <div class="bouquet-options">
+            <div class="bouquet-item"><img src="bouquet-asset-1.png" alt="Rose"></div>
+            <div class="bouquet-item"><img src="bouquet-asset-2.png" alt="Lily"></div>
+            <div class="bouquet-item"><img src="bouquet-asset-3.png" alt="Sunflower"></div>
+        </div>
+
+        <div class="pickup-lines-box">
+            ✨ "Who's she? The best part of my day." <br>
+            ✨ "I'm your #1 fan, forever and always." <br>
+            ✨ "The best thing that happened in my life is you."
+        </div>
+    </div>
+
+    <!-- ================= PAGE 4C: MUSIC CARD & GIFT BOX ================= -->
+    <div id="page-giftbox" class="page">
+        <button class="btn back-btn" onclick="nav('page-3')">⬅ Back</button>
+        
+        <div class="gift-box-layout">
+            <!-- Left: Music Jukebox Card -->
+            <div class="music-card">
+                <h3>🎶 Now Playing</h3>
+                <div class="vinyl-disc">
+                    <div class="vinyl-center"></div>
+                </div>
+                <p style="font-family: 'Georgia'; font-style: italic; font-size: 13px;">
+                    "And suddenly, all the love songs were about you"
+                </p>
+                <audio controls style="width: 100%; margin-top: 10px;">
+                    <source src="your-song.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Right: Interactive Heart Card (Click to open) -->
+            <div class="interactive-card" onclick="openLoveCard()">
+                <div class="heart-open-btn">OPEN 🤍</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 4C-OPENED: HUG & VIDEO REVEAL ================= -->
+    <div id="page-giftbox-opened" class="page" style="height: auto; min-height: 100vh; justify-content: flex-start; padding-top: 60px;">
+        <button class="btn back-btn" onclick="nav('page-giftbox')">⬅ Back</button>
+        
+        <div class="opened-card-content">
+            <h2 style="margin: 0 0 10px 0; color: #111;">I LOVE YOU</h2>
+            <img src="hug-cartoon.png" width="140" alt="Hugging Cartoon" style="margin: 10px 0;">
+            <h3 style="margin: 0; font-family: 'Comic Sans MS'; color: #8b0000;">SOOOOOO.....!<br>MUCH ❤️</h3>
+        </div>
+
+        <p style="margin: 30px 0 10px 0; font-weight: bold; color: #8b0000; animation: bounce 2s infinite;">
+            ⬇ Scroll down for one more surprise ⬇
+        </p>
+
+        <div class="video-container">
+            <video controls>
+                <source src="AQMHXPDb2yonwbm7ehEbb71RJApKweWoCpQqFr9ozXiu4uETb-D5kprCS76jO3_2kV6G3ljXNPPbYbXtkmvHW-ENZF594DbXdCC8GCY.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function nav(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function openLoveCard() {
+            nav('page-giftbox-opened');
+        }
+    </script>
+
+    <style>
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+    </style>
+</body>
+</html>
