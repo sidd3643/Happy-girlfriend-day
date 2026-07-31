@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -169,7 +169,7 @@
             max-width: 900px;
         }
         .love-letter-img {
-            width: 380px; /* Letter ki perfect readable width */
+            width: 380px;
             height: auto;
             display: block;
             box-shadow: 0 10px 25px rgba(0,0,0,0.25);
@@ -184,7 +184,6 @@
         }
         .polaroid img { width: 100%; display: block; }
         
-        /* Bikhri hui polaroids ki positions */
         .p1 { top: -20px; left: -20px; transform: rotate(-8deg); }
         .p2 { bottom: -20px; left: -10px; transform: rotate(6deg); }
         .p3 { top: -20px; right: -20px; transform: rotate(10deg); }
@@ -244,6 +243,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: spinVinyl 4s linear infinite;
+        }
+        @keyframes spinVinyl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .vinyl-center {
             background: #8b0000;
@@ -312,6 +316,11 @@
 </head>
 <body>
 
+    <!-- HIDDEN BACKGROUND AUDIO PLAYER -->
+    <audio id="bg-music" loop>
+        <source src="your-song.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- FIXED SCRAPBOOK ASSETS LAYER -->
     <div class="scrapbook-bg">
         <img src="torn-paper.png" class="bg-asset top-left-paper" alt="Torn Paper">
@@ -327,7 +336,7 @@
         <h1>Happy</h1>
         <h1>Girlfriend</h1>
         <h1>Day!</h1>
-        <button class="btn btn-continue" onclick="nav('page-2')">💌 Continue</button>
+        <button class="btn btn-continue" onclick="startExperienceAndNav('page-2')">💌 Continue</button>
     </div>
 
     <!-- ================= PAGE 2 (The Ask) ================= -->
@@ -367,11 +376,9 @@
         <button class="btn back-btn" onclick="nav('page-3')">⬅ Back</button>
         
         <div class="letter-container">
-            <!-- Bikhri hui polaroids -->
             <div class="polaroid p1"><img src="ananya-pic-1.jpg" alt="Pic 1"></div>
             <div class="polaroid p2"><img src="ananya-pic-2.jpg" alt="Pic 2"></div>
             
-            <!-- Clean High-Res Letter Image Tag -->
             <img src="love-letter-bg.png" class="love-letter-img" alt="Love Letter">
 
             <div class="polaroid p3"><img src="ananya-pic-3.jpg" alt="Pic 3"></div>
@@ -412,9 +419,6 @@
                 <p style="font-family: 'Georgia'; font-style: italic; font-size: 13px;">
                     "And suddenly, all the love songs were about you"
                 </p>
-                <audio controls style="width: 100%; margin-top: 10px;">
-                    <source src="your-song.mp3" type="audio/mpeg">
-                </audio>
             </div>
 
             <!-- Right: Interactive Heart Card (Click to open) -->
@@ -440,13 +444,22 @@
 
         <div class="video-container">
             <video controls>
-                <source src="video.mp4" type="video/mp4">
+                <source src="surprize-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
         </div>
     </div>
 
     <!-- Script -->
     <script>
+        function startExperienceAndNav(pageId) {
+            const music = document.getElementById('bg-music');
+            music.play().catch(error => {
+                console.log("Audio play blocked/failed: ", error);
+            });
+            nav(pageId);
+        }
+
         function nav(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
